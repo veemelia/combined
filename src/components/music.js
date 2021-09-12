@@ -14,7 +14,6 @@ const Music = () => {
 
   let isPlaying = false;
   const songList = [aDayToRemember, romantic, theJazzPiano];
-  const songList = [romantic];
   let index = Math.floor(Math.random() * songList.length);
 
   const setSong = () => {
