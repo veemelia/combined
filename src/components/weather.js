@@ -54,7 +54,7 @@ const Weather = () => {
   useEffect(() => {
     // Function: Catch errors and display in console
     const displayErr = (err) => {
-      console.log(err.message);
+      console.log(err.textStatus);
     };
 
     // Get locational data from device
