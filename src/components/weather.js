@@ -3,14 +3,9 @@ const { useState, useEffect } = require("react");
 const Weather = () => {
   const [lat, setLat] = useState([]);
   const [lon, setLon] = useState([]);
-  //   const [url, setURL] = useState();
-  //   const [celsius, setCelsius] = useState(0);
-  //   const [icon, setIcon] = useState();
   const [data, setData] = useState([]);
 
   let temperatureVal = document.querySelector("#temp-val");
-  let location = document.querySelector("#location");
-  let temperatureDesc = document.querySelector("#temp-desc");
   let iconCanvas = document.querySelector("#icon");
 
   const getWeather = (lat, lon) => {
@@ -23,6 +18,12 @@ const Weather = () => {
     const waitForData = (res) => {
       if (res.ok) {
         return res.json();
+      } else {
+        if (typeof lat === "undefined" || typeof lon === "undefined") {
+          throw new Error("Coorinates undefined");
+        } else {
+          throw new Error("Please enable your location in your browser");
+        }
       }
     };
 
