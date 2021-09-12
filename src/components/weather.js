@@ -5,9 +5,6 @@ const Weather = () => {
   const [lon, setLon] = useState([]);
   const [data, setData] = useState([]);
 
-  let temperatureVal = document.querySelector("#temp-val");
-  let iconCanvas = document.querySelector("#icon");
-
   const getWeather = (lat, lon) => {
     const apiKey = process.env.WEATHER_APIKEY; // API key
     const baseURL = `https://api.openweathermap.org/data/2.5/weather`; // Base URL
@@ -69,12 +66,15 @@ const Weather = () => {
     getWeather(lat, lon)
       .then((apiData) => {
         setData(apiData);
+        setSkycon();
       })
       .catch(displayErr);
   }, [lat, lon]);
 
   // Function: Set icon based on weather API code
   const setSkycon = () => {
+    let iconCanvas = document.querySelector("#icon");
+
     // Corresponding skycon name based on weather API code
     const iconName = {
       "01d": "clear-day",
@@ -103,6 +103,8 @@ const Weather = () => {
   };
 
   const toggleTempUnit = () => {
+    let temperatureVal = document.querySelector("#temp-val");
+
     if (document.querySelector(".temp-val span").innerHTML === "C") {
       document.querySelector(".temp-val span").innerHTML = "F";
       temperatureVal.innerHTML = ((data.temp * 9) / 5 + 32).toFixed(2);
@@ -121,12 +123,7 @@ const Weather = () => {
           id="location"
           placeholder={`${data.city} | ${data.country}`}
         />
-        <canvas
-          id="icon"
-          width="128"
-          height="128"
-          onChange={setSkycon}
-        ></canvas>
+        <canvas id="icon" width="128" height="128"></canvas>
       </div>
       <div className="temperature">
         <div className="temp-val" onClick={toggleTempUnit}>
