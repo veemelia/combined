@@ -40,15 +40,8 @@ const Weather = () => {
 
     // Function: Extract data
     const storeData = (weatherData) => {
-      if (Object.entries(weatherData).length) {
-        const extractedData = mapData(weatherData);
-        return extractedData;
-      }
-    };
-
-    // Function: Catch errors and display in console
-    const displayErr = (err) => {
-      console.log(err.textStatus);
+      const extractedData = mapData(weatherData);
+      return extractedData;
     };
 
     return fetch(url, {
@@ -59,6 +52,11 @@ const Weather = () => {
   };
 
   useEffect(() => {
+    // Function: Catch errors and display in console
+    const displayErr = (err) => {
+      console.log(err.message);
+    };
+
     // Get locational data from device
     navigator.geolocation.getCurrentPosition((position) => {
       if (position.coords.latitude && position.coords.longitude) {
