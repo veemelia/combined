@@ -17,10 +17,10 @@ const Weather = () => {
     // Function: Convert data into JSON format
     const waitForData = (res) => {
       if (!res.ok) {
-        if (lat === "" || lon === "") {
+        if (url.includes("=&")) {
           throw new Error("Coorinates undefined");
         } else {
-          throw new Error("Please enable your location in your browser");
+          throw new Error("Some error occurred");
         }
       } else {
         return res.json();
