@@ -16,14 +16,14 @@ const Weather = () => {
 
     // Function: Convert data into JSON format
     const waitForData = (res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        if (typeof lat === "undefined" || typeof lon === "undefined") {
+      if (!res.ok) {
+        if (lat === "" || lon === "") {
           throw new Error("Coorinates undefined");
         } else {
           throw new Error("Please enable your location in your browser");
         }
+      } else {
+        return res.json();
       }
     };
 
