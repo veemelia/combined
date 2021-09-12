@@ -6,8 +6,8 @@ const Music = () => {
   const mainImg = document.querySelector("#mainImg");
   const audio = document.querySelector("#audio");
 
-  const playImg = require("url:../../public/play.png");
-  const pauseImg = require("url:../../public/pause.png");
+  const playImg = require("../../public/play.png");
+  const pauseImg = require("../../public/pause.png");
   const aDayToRemember = require("url:../../public/adaytoremember.mp3");
   const romantic = require("url:../../public/romantic.mp3");
   const theJazzPiano = require("url:../../public/thejazzpiano.mp3");
@@ -114,20 +114,20 @@ const Music = () => {
           <h1>Soundtrack of the Day</h1>
           <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
           <audio
-            src="../public/romantic.mp3"
+            src="../../public/romantic.mp3"
             id="audio"
             preload="metadata"
           ></audio>
           <input type="range" id="range" class="slider" value="0" min="0" />
           <div class="button-container">
             <button class="previous">
-              <img src="../public/previous.png" />
+              <img src="../../public/previous.png" />
             </button>
             <button class="play">
-              <img id="mainImg" src="../public/play.png" />
+              <img id="mainImg" src="../../public/play.png" />
             </button>
             <button class="next">
-              <img src="../public/next.png" />
+              <img src="../../public/next.png" />
             </button>
           </div>
         </div>
