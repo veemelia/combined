@@ -66,13 +66,13 @@ const Weather = () => {
     getWeather(lat, lon)
       .then((apiData) => {
         setData(apiData);
-        setSkycon();
+        setSkycon(apiData);
       })
       .catch(displayErr);
   }, [lat, lon]);
 
   // Function: Set icon based on weather API code
-  const setSkycon = () => {
+  const setSkycon = (apiData) => {
     let iconCanvas = document.querySelector("#icon");
 
     // Corresponding skycon name based on weather API code
@@ -99,7 +99,7 @@ const Weather = () => {
 
     const skycon = new Skycons({ monochrome: false });
     skycon.play();
-    return skycon.set(iconCanvas, iconName[data.icon]);
+    return skycon.set(iconCanvas, iconName[apiData.icon]);
   };
 
   const toggleTempUnit = () => {
