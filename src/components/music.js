@@ -6,11 +6,11 @@ const Music = () => {
   const mainImg = document.querySelector("#mainImg");
   const audio = document.querySelector("#audio");
 
-  const playImg = require("../public/play.png");
-  const pauseImg = require("../public/pause.png");
-  const aDayToRemember = require("url:../public/adaytoremember.mp3");
-  const romantic = require("url:../public/romantic.mp3");
-  const theJazzPiano = require("url:../public/thejazzpiano.mp3");
+  const playImg = require("../../public/play.png");
+  const pauseImg = require("../../public/pause.png");
+  const aDayToRemember = require("url:../../public/adaytoremember.mp3");
+  const romantic = require("url:../../public/romantic.mp3");
+  const theJazzPiano = require("url:../../public/thejazzpiano.mp3");
 
   let isPlaying = false;
   const songList = [aDayToRemember, romantic, theJazzPiano];
