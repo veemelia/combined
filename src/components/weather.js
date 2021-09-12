@@ -1,71 +1,78 @@
 const { useState, useEffect } = require("react");
 
 const Weather = () => {
-  const [lat, setLat] = useState();
-  const [lon, setLon] = useState();
-  const [url, setURL] = useState();
-  const [celsius, setCelsius] = useState(0);
-  const [icon, setIcon] = useState();
+  const [lat, setLat] = useState([]);
+  const [lon, setLon] = useState([]);
+  //   const [url, setURL] = useState();
+  //   const [celsius, setCelsius] = useState(0);
+  //   const [icon, setIcon] = useState();
+  const [data, setData] = useState([]);
 
   let temperatureVal = document.querySelector("#temp-val");
   let location = document.querySelector("#location");
   let temperatureDesc = document.querySelector("#temp-desc");
   let iconCanvas = document.querySelector("#icon");
 
-  useEffect(() => {
-    const getLocation = () => {
-      // Get locational data from device
-      navigator.geolocation.getCurrentPosition((position) => {
-        if (position.coords.latitude && position.coords.longitude) {
-          setLat(position.coords.latitude);
-          setLon(position.coords.longitude);
-        }
-      });
+  const getWeather = (lat, lon) => {
+    const apiKey = process.env.WEATHER_APIKEY; // API key
+    const baseURL = `https://api.openweathermap.org/data/2.5/weather`; // Base URL
+    let queryString = `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`; // Query for URL
+    let url = baseURL + queryString;
 
-      if (lat && lon) {
-        const apiKey = process.env.WEATHER_APIKEY; // API key
-        const baseURL = `https://api.openweathermap.org/data/2.5/weather`; // Base URL
-        let queryString = `?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`; // Query for URL
-        setURL(baseURL + queryString); // Complete URL
+    // Function: Convert data into JSON format
+    const waitForData = (res) => {
+      if (res.ok) {
+        return res.json();
       }
     };
 
-    getLocation();
+    const mapData = (data) => {
+      const mapped = {
+        temp: data.main.temp,
+        description: data.weather[0].description,
+        icon: data.weather[0].icon,
+        city: data.name,
+        country: data.sys.country,
+      };
+
+      return mapped;
+    };
+
+    // Function: Extract data
+    const storeData = (weatherData) => {
+      if (Object.entries(weatherData).length) {
+        const extractedData = mapData(weatherData);
+        return extractedData;
+      }
+    };
+
+    // Function: Catch errors and display in console
+    const displayErr = (err) => {
+      console.log(err.textStatus);
+    };
+
+    return fetch(url, {
+      method: "GET",
+    })
+      .then(waitForData)
+      .then(storeData);
+  };
+
+  useEffect(() => {
+    // Get locational data from device
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position.coords.latitude && position.coords.longitude) {
+        setLat(position.coords.latitude);
+        setLon(position.coords.longitude);
+      }
+    });
+
+    getWeather(lat, lon)
+      .then((apiData) => {
+        setData(apiData);
+      })
+      .catch(displayErr);
   }, [lat, lon]);
-
-  // Function: Convert data into JSON format
-  const waitForData = (res) => {
-    return res.json();
-  };
-
-  // Function: Extract data
-  const storeData = (data) => {
-    // Get key data
-    const temp = data.main.temp;
-    setCelsius(temp);
-
-    const { description, icon } = data.weather[0];
-    const city = data.name;
-    const country = data.sys.country;
-
-    // Update DOM
-    location.placeholder = `${city} | ${country}`;
-    temperatureVal.innerHTML = temp.toFixed(2);
-    temperatureDesc.innerHTML = description;
-    setIcon(icon);
-  };
-
-  // Function: Catch errors and display in console
-  const displayErr = (err) => {
-    console.log(err.textStatus);
-  };
-
-  fetch(url, {
-    method: "GET",
-  })
-    .then(waitForData)
-    .then(storeData)
-    .catch(displayErr);
 
   // Function: Set icon based on weather API code
   const setSkycon = () => {
@@ -93,16 +100,16 @@ const Weather = () => {
 
     const skycon = new Skycons({ monochrome: false });
     skycon.play();
-    return skycon.set(iconCanvas, iconName[icon]);
+    return skycon.set(iconCanvas, iconName[data.icon]);
   };
 
   const toggleTempUnit = () => {
     if (document.querySelector(".temp-val span").innerHTML === "C") {
       document.querySelector(".temp-val span").innerHTML = "F";
-      temperatureVal.innerHTML = ((celsius * 9) / 5 + 32).toFixed(2);
+      temperatureVal.innerHTML = ((data.temp * 9) / 5 + 32).toFixed(2);
     } else {
       document.querySelector(".temp-val span").innerHTML = "C";
-      temperatureVal.innerHTML = celsius.toFixed(2);
+      temperatureVal.innerHTML = data.temp.toFixed(2);
     }
   };
 
@@ -113,7 +120,7 @@ const Weather = () => {
           type="text"
           name="location"
           id="location"
-          placeholder="Locationn"
+          placeholder={`${data.city} | ${data.country}`}
         />
         <canvas
           id="icon"
@@ -124,10 +131,10 @@ const Weather = () => {
       </div>
       <div className="temperature">
         <div className="temp-val" onClick={toggleTempUnit}>
-          <h2 id="temp-val"></h2>
+          <h2 id="temp-val">{data.temp.toFixed(2)}</h2>
           <span>C</span>
         </div>
-        <h4 id="temp-desc"></h4>
+        <h4 id="temp-desc">{data.description}</h4>
       </div>
     </div>
   );
