@@ -131,7 +131,7 @@ const Weather = () => {
       </div>
       <div className="temperature">
         <div className="temp-val" onClick={toggleTempUnit}>
-          <h2 id="temp-val">{data.temp.toFixed(2)}</h2>
+          <h2 id="temp-val">{data.temp}</h2>
           <span>C</span>
         </div>
         <h4 id="temp-desc">{data.description}</h4>
