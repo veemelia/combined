@@ -12,6 +12,9 @@ const theJazzPiano = require("url:../../public/thejazzpiano.mp3");
 const Music = () => {
   const audioRef = useRef();
   const sliderRef = useRef();
+  const mainImgRef = useRef();
+  const [currentSongIndex, setcurrentSongIndex] = useState(0);
+  const [nextSongIndex, setNextSongIndex] = useState(currentSongIndex + 1);
 
   let isPlaying = false;
   const songList = [aDayToRemember, romantic, theJazzPiano];
@@ -19,12 +22,13 @@ const Music = () => {
 
   const setSong = () => {
     const audio = audioRef.current;
-    // audio.src = songList[index];
+    saveSong(songList[index]);
   };
 
   const playPause = () => {
     const audio = audioRef.current;
     const slider = sliderRef.current;
+    const mainImg = mainImgRef.current;
 
     if (!isPlaying) {
       slider.max = audio.duration;
@@ -104,7 +108,7 @@ const Music = () => {
   //     slider.max = audio.duration;
   //   });
 
-  window.onload = setSong();
+  //   window.onload = setSong();
 
   return (
     <div id="music-section">
@@ -113,10 +117,11 @@ const Music = () => {
           <h1>Soundtrack of the Day</h1>
           <img src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" />
           <audio
-            src={songList[index]}
+            src={song}
             className="audio"
             preload="metadata"
             ref={audioRef}
+            song={}
           ></audio>
           <input
             type="range"
@@ -132,7 +137,7 @@ const Music = () => {
               <img src={previousImg} />
             </button>
             <button className="play" onClick={playPause}>
-              <img id="mainImg" src={playImg} />
+              <img id="mainImg" src={playImg} ref={mainImgRef} />
             </button>
             <button className="next" onClick={nextSong}>
               <img src={nextImg} />
