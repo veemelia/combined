@@ -13,11 +13,6 @@ const Music = () => {
   const audioRef = useRef();
   const sliderRef = useRef();
 
-  // const [song, setSong] = useState("");
-  //   const slider = document.querySelector(".slider");
-  //   const mainImg = document.querySelector("#mainImg");
-  //   const audio = document.querySelector(".audio");
-
   let isPlaying = false;
   const songList = [aDayToRemember, romantic, theJazzPiano];
   let index = Math.floor(Math.random() * songList.length);
@@ -42,19 +37,6 @@ const Music = () => {
       mainImg.src = playImg;
     }
   };
-
-  //   mainBtn.addEventListener("click", () => {
-  //     if (!isPlaying) {
-  //       slider.max = audio.duration;
-  //       audio.play();
-  //       isPlaying = true;
-  //       mainImg.src = pauseImg;
-  //     } else {
-  //       audio.pause();
-  //       isPlaying = false;
-  //       mainImg.src = playImg;
-  //     }
-  //   });
 
   //   audio.addEventListener("ended", () => {
   //     audio.currentTime = 0;
@@ -96,22 +78,6 @@ const Music = () => {
     }
   };
 
-  //   previous.addEventListener("click", () => {
-  //     index -= 1;
-
-  //     if (index < 0) {
-  //       index = songList.length - 1;
-  //     }
-
-  //     setSong();
-
-  //     if (!isPlaying) {
-  //       audio.pause();
-  //     } else {
-  //       audio.play();
-  //     }
-  //   });
-
   const nextSong = () => {
     const audio = audioRef.current;
     const slider = sliderRef.current;
@@ -132,24 +98,6 @@ const Music = () => {
       audio.play();
     }
   };
-
-  //   next.addEventListener("click", () => {
-  //     index += 1;
-
-  //     if (index === songList.length) {
-  //       index = 0;
-  //     }
-
-  //     setSong();
-  //     slider.max = audio.duration;
-  //     console.log(slider.max);
-
-  //     if (!isPlaying) {
-  //       audio.pause();
-  //     } else {
-  //       audio.play();
-  //     }
-  //   });
 
   //   audio.addEventListener("loadeddata", function () {
   //     console.log("Audio duration: " + this.duration);
